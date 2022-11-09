@@ -122,10 +122,11 @@ void inOrder(Node* root , int &count){
     }
     inOrder(root->left , count);
     
+    
+    inOrder(root->right ,count);
     if(root->left == NULL and root->right == NULL){
         count++;
     }
-    inOrder(root->right ,count);
     
 }
 int countLeaves(Node* root)
