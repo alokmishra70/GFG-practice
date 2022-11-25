@@ -100,23 +100,18 @@ int main() {
 
 // Function to return the ceil of given number in BST.
 int findCeil(Node* root, int input) {
-    
-    int ceil = -1;
-    while(root){
-        if(root->data == input){
-            ceil = root->data;
-            return ceil;
-        }
-        if(root->data > input ){
-            ceil = root->data;
-            root = root->left;
-        }
-        else{
-            root = root->right;
-        }
-        
+    if(root == NULL){
+        return -1;
     }
-    return ceil;
+    if(root->data == input ){
+        return root->data;
+    }
+    if(root->data < input){
+        return findCeil(root->right , input);
+    } 
+    
+    int ceil = findCeil(root->left , input);
+    return ceil >= input ? ceil : root->data;
     
 
     // Your code here
