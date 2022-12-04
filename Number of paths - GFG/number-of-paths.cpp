@@ -6,19 +6,21 @@ using namespace std;
 // } Driver Code Ends
 
 
-long long recursiveFun(int m , int n){
+long long recursiveFun(int m , int n , vector<vector<int>>&dp){
     if(m == 0 and n == 0) return 1;
     if(m < 0 || n < 0) return 0;
+    if(dp[m][n] != -1) return dp[m][n];
     
-    long long  down = recursiveFun(m-1 , n);
-    long long right = recursiveFun(m,n-1);
+    long long  down = recursiveFun(m-1 , n , dp);
+    long long right = recursiveFun(m,n-1 , dp);
     
-    return down + right; 
+    return dp[m][n] = down + right; 
 }
 
 long long  numberOfPaths(int m, int n)
 {
-    return recursiveFun(m-1,n-1);
+    vector<vector<int>>dp(m , vector<int>( n , -1));
+    return recursiveFun(m-1,n-1 , dp);
     // Code Here
 }
 
