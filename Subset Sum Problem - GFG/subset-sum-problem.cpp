@@ -9,23 +9,27 @@ using namespace std;
 
 class Solution{   
 public:
-    bool memoFun(vector<int>& arr , int indx , int target , vector<vector<int>>&dp){
-        if(target == 0) return true;
-        if(indx == 0) return (arr[0] == target);
-        
-        if(dp[indx][target] != -1) return dp[indx][target];
-        
-        bool notTake = memoFun(arr, indx-1 , target , dp);
-        bool take = false;
-        if(target >= arr[indx]) take = memoFun(arr,indx-1 , target - arr[indx] , dp);
-        
-        return  dp[indx][target] = take or notTake;
-    }
+    
     bool isSubsetSum(vector<int>arr, int target){
+        // Tabulation bottom up 0 -> n-1
         int n = arr.size();
-        vector<vector<int>>dp( n, vector<int>(target+1 , -1)); 
+        vector<vector<bool>>dp( n, vector<bool>(target+1 , 0)); 
         
-        return memoFun(arr, n-1 , target , dp);
+        for(int i=0 ; i<n; i++){
+            dp[i][0] = true;
+        }
+        dp[0][arr[0]] = true;
+        
+        for(int i=1 ; i<n; i++){
+            for(int k = 1 ; k<= target ; k++){
+                bool notTake = dp[i-1][k];
+                bool take = false;
+                if(k >= arr[i]) take = dp[i-1][k - arr[i]];
+                dp[i][k] = take or notTake;
+            }
+        }
+        
+        return dp[n-1][target];
     }
 };
 
